@@ -1,0 +1,34 @@
+# AI & ERP Assignment
+
+This file documents AI-related concepts and projects, including work on the ERP-Assignment project.
+
+## ERP-Assignment
+
+A Laravel-based ERP (Enterprise Resource Planning) system with AI-inspired engineering improvements.
+
+### Locale-Aware Sorting (mirrors FreshRSS/FreshRSS#8985)
+
+Implemented locale-aware collation for inventory item sorting using PHP's `Collator` (`ext-intl`):
+
+- **Problem**: `strnatcasecmp()` compares raw UTF-8 bytes, causing accented names (e.g. `Ábaco`, `Ñandú`) to sort *after* all ASCII names instead of near their base letters.
+- **Fix**: `LocaleHelper::localeCompare()` uses `Collator` for the app's active locale, with a `strnatcasecmp` fallback when `ext-intl` is unavailable.
+- **Result**:
+  ```
+  Before: banana, Manzana, nube, Zorro, Ábaco, Ñandú, Úlcera, árbol
+  After:  Ábaco, árbol, banana, Manzana, nube, Ñandú, Úlcera, Zorro
+  ```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `app/Helpers/LocaleHelper.php` | `localeCompare()` static method with `Collator` + fallback |
+| `app/Actions/Inventory/InventoryListAction.php` | Global locale-aware sort before pagination |
+| `tests/Unit/LocaleHelperTest.php` | Unit tests including Spanish accent ordering |
+
+## AI Topics
+
+- **Machine Learning** — pattern recognition and predictive modeling
+- **Deep Learning** — neural networks for complex data representations
+- **Natural Language Processing** — text understanding and generation
+- **Computer Vision** — image recognition and visual data analysis
